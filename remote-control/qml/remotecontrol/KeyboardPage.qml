@@ -4,10 +4,9 @@ import com.nokia.symbian 1.1
 
 
 Page {
-    Rectangle {
-        width: 100
-        height: 62
-        color: "red"
+    TextArea {
+        id: textInput
+        width: parent.width
+        height: 40
     }
-
 }
