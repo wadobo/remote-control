@@ -4,6 +4,7 @@
 #include <QTcpSocket>
 #include <QVariant>
 #include <QStringList>
+#include <QNetworkInterface>
 
 
 #include <QDebug>
@@ -40,9 +41,25 @@ CommandManager::CommandManager(QObject *parent) :
             this,
             SLOT(stateChangedSlot(QAbstractSocket::SocketState)));
 
-    mSocket->connectToHost("127.0.0.1", 8888);
+//    mSocket->connectToHost("127.0.0.1", 8888);
 }
 
+void CommandManager::automaticConnection()
+{
+    foreach (const QNetworkInterface& interface, QNetworkInterface::allInterfaces()) {
+        QNetworkInterface::InterfaceFlags flags = interface.flags();
+        // Searching for local network interfaces
+        if (interface.isValid() && (flags & QNetworkInterface::IsUp) &&
+                (flags & QNetworkInterface::IsRunning) &&
+                !(flags & QNetworkInterface::IsLoopBack)) {
+            qDebug() << "Searching with interface: " << interface.humanReadableName();
+            // For each address
+            foreach (const QNetworkAddressEntry& entry, interface.addressEntries()) {
+                qDebug() << entry.ip().toString();
+            }
+        }
+    }
+}
 
 void CommandManager::runCommand(const CommandManager::InputCommand commandType,
                                 const QVariant& args)

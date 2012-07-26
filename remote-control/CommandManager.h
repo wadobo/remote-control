@@ -43,6 +43,7 @@ signals:
     void connectedChange(bool);
 
 public slots:
+    void automaticConnection();
     void runCommand(const InputCommand command, const QVariant &args);
     void connectedSlot();
     void disconnectedSlot();
