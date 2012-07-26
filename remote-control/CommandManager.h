@@ -29,8 +29,7 @@ public:
         LastCommand
     };
 
-    explicit CommandManager(QNetworkAccessManager* networkManager,
-                            QObject *parent = 0);
+    explicit CommandManager(QObject *parent = 0);
 
 signals:
     void connectedChange(bool);

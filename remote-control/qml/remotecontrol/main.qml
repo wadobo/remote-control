@@ -1,5 +1,6 @@
 import QtQuick 1.1
 import com.nokia.symbian 1.1
+import com.wadobo.commandplugin 1.0
 
 PageStackWindow {
     id: window
@@ -7,7 +8,11 @@ PageStackWindow {
     showStatusBar: true
     showToolBar: true
 
-   ToolBar {
+    CommandManager {
+        id: commandManager
+    }
+
+    ToolBar {
         id: bottomToolbar
         anchors.bottom: parent.bottom
         tools: ToolBarLayout {

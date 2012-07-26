@@ -1,5 +1,6 @@
 import QtQuick 1.1
 import com.nokia.symbian 1.1
+import com.wadobo.commandplugin 1.0
 
 Page {
     Rectangle {
@@ -26,6 +27,9 @@ Page {
             anchors.bottomMargin: 10
             anchors.left: parent.left
             anchors.leftMargin: 10
+            onClicked: {
+                commandManager.runCommand(CommandManager.MouseClickCommand, 1)
+            }
         }
         Button {
             id: rightButton
@@ -34,6 +38,9 @@ Page {
             anchors.bottomMargin: 10
             anchors.right: parent.right
             anchors.rightMargin: 10
+            onClicked: {
+                commandManager.runCommand(CommandManager.MouseClickCommand, 2)
+            }
         }
         MouseArea {
                     anchors.fill: parent
@@ -56,7 +63,7 @@ Page {
                         ypos = mouseY - prevY;
 
                         console.log("drag (" + xpos + ", " + ypos + ")");
-                        commandManager.runCommand(commandManager.MouseRelativeMoveCommand, xpos);
+                        commandManager.runCommand(CommandManager.MouseRelativeMoveCommand, xpos);
                         //xte.send(server, port, "mousermove " + xpos + " " + ypos);
 
                         prevX = mouseX;

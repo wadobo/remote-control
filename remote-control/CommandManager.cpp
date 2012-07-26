@@ -3,9 +3,10 @@
 #include <QNetworkAccessManager>
 #include <QDebug>
 
-CommandManager::CommandManager(QNetworkAccessManager* networkManager, QObject *parent) :
-    QObject(parent), mNetworkManager(networkManager), mConnected(false)
+CommandManager::CommandManager(QObject *parent) :
+    QObject(parent), mConnected(false)
 {
+    mNetworkManager = new QNetworkAccessManager(this);
     mCommandString.insert(KeyCommand, "key");
     mCommandString.insert(KeyDownCommand, "keydown");
     mCommandString.insert(KeyUpCommand, "keyup");
