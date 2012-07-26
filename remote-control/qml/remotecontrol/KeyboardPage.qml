@@ -21,6 +21,7 @@ Page {
         }
         onClicked: {
             commandManager.runCommand(CommandManager.StringCommand, textInput.text)
+            textInput.text = ""
         }
 
     }
