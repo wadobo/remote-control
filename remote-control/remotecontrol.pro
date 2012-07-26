@@ -26,12 +26,18 @@ symbian:TARGET.CAPABILITY += NetworkServices
 # Speed up launching on MeeGo/Harmattan when using applauncherd daemon
 # CONFIG += qdeclarative-boostable
 
+QT += network
+
 # Add dependency to Symbian components
 CONFIG += qt-components
 
 # The .cpp file which was generated for your project. Feel free to hack it.
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    CommandManager.cpp
 
 # Please do not modify the following two lines. Required for deployment.
 include(qmlapplicationviewer/qmlapplicationviewer.pri)
 qtcAddDeployment()
+
+HEADERS += \
+    CommandManager.h
