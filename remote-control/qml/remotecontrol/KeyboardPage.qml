@@ -7,6 +7,16 @@ Page {
     TextArea {
         id: textInput
         width: parent.width
-        height: 40
+    }
+
+    Button {
+        id: sendText
+        text: "Send text"
+        anchors {
+            top: textInput.bottom
+            topMargin: 10
+            horizontalCenter: parent.horizontalCenter
+        }
+
     }
 }

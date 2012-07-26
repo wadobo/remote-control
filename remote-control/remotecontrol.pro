@@ -41,3 +41,6 @@ qtcAddDeployment()
 
 HEADERS += \
     CommandManager.h
+
+RESOURCES += \
+    resources.qrc

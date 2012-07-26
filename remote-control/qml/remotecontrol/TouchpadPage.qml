@@ -2,10 +2,12 @@ import QtQuick 1.1
 import com.nokia.symbian 1.1
 
 Page {
-    Rectangle {
-        id: touchpadRectangle
+    Image {
         anchors.fill: parent
-        color: "grey"
+        //width: 120; height: 120
+        fillMode: Image.Tile
+        source: "qrc:/bg.jpg"
+
         MouseArea {
             id: touchpadArea
             anchors.fill: parent
@@ -19,22 +21,7 @@ Page {
             anchors.right: parent.right
             text:"x: " + touchpadArea.mouseX +", y: " +touchpadArea.mouseY
         }
-        Button {
-            id: leftButton
-            text: "Left button"
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 10
-            anchors.left: parent.left
-            anchors.leftMargin: 10
-        }
-        Button {
-            id: rightButton
-            text: "Right button"
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 10
-            anchors.right: parent.right
-            anchors.rightMargin: 10
-        }
+
         MouseArea {
                     anchors.fill: parent
                     property int prevX: 0
@@ -63,5 +50,21 @@ Page {
                     }
                 }
 
+        Button {
+            id: leftButton
+            text: "Left button"
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 10
+            anchors.left: parent.left
+            anchors.leftMargin: 10
+        }
+        Button {
+            id: rightButton
+            text: "Right button"
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 10
+            anchors.right: parent.right
+            anchors.rightMargin: 10
+        }
    }
 }

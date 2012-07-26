@@ -3,7 +3,8 @@ import com.nokia.symbian 1.1
 
 PageStackWindow {
     id: window
-    initialPage: touchpadPage
+    //initialPage: touchpadPage
+    initialPage: connectionPage
     showStatusBar: true
     showToolBar: true
 
@@ -31,6 +32,7 @@ PageStackWindow {
                 }
                 TabButton {
                     iconSource: "toolbar-menu"
+                    onClicked: Qt.quit()
                 }
             }
         }
@@ -48,6 +50,11 @@ PageStackWindow {
 
    MediaPage {
        id: mediaPage
+       tools: bottomToolbar
+   }
+
+   ConnectionPage {
+       id: connectionPage
        tools: bottomToolbar
    }
 }
