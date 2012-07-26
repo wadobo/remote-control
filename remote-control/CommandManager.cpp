@@ -13,7 +13,8 @@
 CommandManager::CommandManager(QObject *parent) :
     QObject(parent)
 {
-    mNetworkManager = new QNetworkAccessManager(this);
+    mState = UnconnectedState;
+    mPort = 8888;
     mCommandString.insert(KeyCommand, "key");
     mCommandString.insert(KeyDownCommand, "keydown");
     mCommandString.insert(KeyUpCommand, "keyup");
@@ -42,23 +43,28 @@ CommandManager::CommandManager(QObject *parent) :
             SLOT(stateChangedSlot(QAbstractSocket::SocketState)));
 
 //    mSocket->connectToHost("127.0.0.1", 8888);
+//    automaticConnection();
 }
 
 void CommandManager::automaticConnection()
 {
+    if (mState == AutoConnectingState) {
+        return;
+    }
+
     foreach (const QNetworkInterface& interface, QNetworkInterface::allInterfaces()) {
         QNetworkInterface::InterfaceFlags flags = interface.flags();
         // Searching for local network interfaces
         if (interface.isValid() && (flags & QNetworkInterface::IsUp) &&
                 (flags & QNetworkInterface::IsRunning) &&
                 !(flags & QNetworkInterface::IsLoopBack)) {
-            qDebug() << "Searching with interface: " << interface.humanReadableName();
-            // For each address
-            foreach (const QNetworkAddressEntry& entry, interface.addressEntries()) {
-                qDebug() << entry.ip().toString();
-            }
+            qDebug() << "Searching on interface: " << interface.humanReadableName();
+            mAutoConnectionAddressList = interface.addressEntries();
         }
     }
+
+    mState = AutoConnectingState;
+    startAutomaticConnection();
 }
 
 void CommandManager::runCommand(const CommandManager::InputCommand commandType,
@@ -119,5 +125,48 @@ void CommandManager::proxyAuthenticationRequiredSlot(const QNetworkProxy &, QAut
 
 void CommandManager::stateChangedSlot(QAbstractSocket::SocketState state)
 {
+    if (state == QAbstractSocket::ConnectedState) {
+        mState = ConnectedState;
+        return;
+    }
+    if (mState == AutoConnectingState) {
+        if (state == QAbstractSocket::UnconnectedState) {
+            nextAutomaticConnection();
+        }
+    }
     qDebug() << "socket: state changed" << state;
+}
+
+void CommandManager::startAutomaticConnection()
+{
+    if (mAutoConnectionAddressList.isEmpty()) {
+        mState = UnconnectedState;
+        mActualAddress = QNetworkAddressEntry();
+        qDebug() << "Finishing unsuccessful autoconnecting";
+    } else {
+        mActualAddress = mAutoConnectionAddressList.takeFirst();
+        QString address = mActualAddress.ip().toString();
+        QStringList addressList = address.split(".");
+        addressList.removeLast();
+        addressList.append(QString::number(1));
+        mActualAddress.setIp(QHostAddress(addressList.join(".")));
+        mSocket->connectToHost(mActualAddress.ip(), mPort);
+        qDebug() << "Starting searching in network" << mActualAddress.ip().toString();
+    }
+}
+
+void CommandManager::nextAutomaticConnection()
+{
+    QString address = mActualAddress.ip().toString();
+    QStringList addressList = address.split(".");
+    int dir = addressList.takeLast().toInt();
+    if (dir == 254) {
+        startAutomaticConnection();
+        return;
+    }
+    dir++;
+    addressList.append(QString::number(dir));
+    mActualAddress.setIp(QHostAddress(addressList.join(".")));
+    mSocket->connectToHost(mActualAddress.ip(), mPort);
+    qDebug() << "Connecting IP: " << mActualAddress.ip().toString();
 }
