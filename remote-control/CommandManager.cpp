@@ -72,7 +72,7 @@ void CommandManager::runCommand(const CommandManager::InputCommand commandType,
     }
     commandLine.append('\n');
     mSocket->write(commandLine.toAscii());
-    qDebug() << "sending command" << commandType << commandLine;
+    qDebug() << "sending command" << commandLine.trimmed();
 }
 
 void CommandManager::connectedSlot()
