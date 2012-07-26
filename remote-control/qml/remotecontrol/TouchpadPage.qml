@@ -56,6 +56,7 @@ Page {
                         ypos = mouseY - prevY;
 
                         console.log("drag (" + xpos + ", " + ypos + ")");
+                        commandManager.runCommand(commandManager.MouseRelativeMoveCommand, xpos);
                         //xte.send(server, port, "mousermove " + xpos + " " + ypos);
 
                         prevX = mouseX;

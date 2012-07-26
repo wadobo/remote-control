@@ -26,6 +26,6 @@ void CommandManager::runCommand(CommandManager::InputCommand commandType,
     if (commandType < 0 || commandType >= LastCommand) {
         qDebug() << "Command no implemented: " << commandType;
     }
-    QString commandLine = mCommandString.value(commandType) + args;
-    qDebug() << commandLine;
+    QString commandLine = mCommandString.value(commandType) + " " + args;
+    qDebug() << "runCommand" << commandType << commandLine;
 }
