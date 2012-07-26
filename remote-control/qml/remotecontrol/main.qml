@@ -3,34 +3,52 @@ import com.nokia.symbian 1.1
 
 PageStackWindow {
     id: window
-    initialPage: MainPage {tools: toolBarLayout}
+    initialPage: touchpadPage
     showStatusBar: true
     showToolBar: true
 
    ToolBar {
-        anchors.top: parent.top
+        id: bottomToolbar
+        anchors.bottom: parent.bottom
         tools: ToolBarLayout {
             ButtonRow {
                 TabButton {
                     id: tabButton1
-                    tab: tab1
                     text: "Mouse"
+                    onClicked: pageStack.push(touchpadPage)
                 }
                 TabButton {
                     id: tabButton2
-                    tab: tab2
                     text: "Keyboard"
+                    onClicked: pageStack.push(keyboardPage)
+
                 }
                 TabButton {
                     id: tabButton3
-                    tab: tab3
                     text: "Media"
+                    onClicked: pageStack.push(mediaPage)
+
                 }
-                ToolButton {
+                TabButton {
                     iconSource: "toolbar-menu"
                 }
             }
         }
     }
+
+   TouchpadPage {
+       id: touchpadPage
+       tools: bottomToolbar
+   }
+
+   KeyboardPage {
+       id: keyboardPage
+       tools: bottomToolbar
+   }
+
+   MediaPage {
+       id: mediaPage
+       tools: bottomToolbar
+   }
 }
 
