@@ -3,8 +3,12 @@
 
 #include <QObject>
 #include <QMap>
+#include <QAbstractSocket>
 
 class QNetworkAccessManager;
+class QTcpSocket;
+class QNetworkProxy;
+class QAuthenticator;
 
 class CommandManager : public QObject
 {
@@ -12,8 +16,6 @@ class CommandManager : public QObject
     Q_ENUMS(InputCommand)
 
 public:
-    Q_PROPERTY(bool connected READ connected NOTIFY connectedChange)
-
     enum InputCommand {
         KeyCommand,
         KeyDownCommand,
@@ -35,13 +37,18 @@ signals:
     void connectedChange(bool);
 
 public slots:
-    bool connected() const { return mConnected; }
     void runCommand(InputCommand command, QString args);
+    void connectedSlot();
+    void disconnectedSlot();
+    void hostFoundSlot();
+    void errorSlot(QAbstractSocket::SocketError error);
+    void proxyAuthenticationRequiredSlot(const QNetworkProxy& , QAuthenticator*);
+    void stateChangedSlot(QAbstractSocket::SocketState state);
 
 protected:
     QMap<InputCommand, QString> mCommandString;
+    QTcpSocket *mSocket;
     QNetworkAccessManager *mNetworkManager;
-    bool mConnected;
 };
 
 #endif // COMMANDMANAGER_H
