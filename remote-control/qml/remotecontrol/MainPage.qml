@@ -3,10 +3,15 @@ import com.nokia.symbian 1.1
 
 Page {
     id: mainPage
-    Text {
-        anchors.centerIn: parent
-        text: qsTr("Hello world!")
-        color: platformStyle.colorNormalLight
-        font.pixelSize: 20
+
+    Rectangle {
+        id: touchpadRectangle
+        anchors.fill: parent
+        color: gray
+        MouseArea {
+            id: touchpadArea
+            anchors.fill: parent
+            onClicked: Qt.quit()
+        }
     }
 }
