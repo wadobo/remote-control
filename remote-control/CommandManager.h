@@ -9,6 +9,7 @@ class QNetworkAccessManager;
 class QTcpSocket;
 class QNetworkProxy;
 class QAuthenticator;
+class QVariant;
 
 class CommandManager : public QObject
 {
@@ -16,6 +17,11 @@ class CommandManager : public QObject
     Q_ENUMS(InputCommand)
 
 public:
+    /**
+      * These are the possible commands to be send to the computer.
+      * They are the same of xte Linux command. For more information
+      * see "man xte".
+      */
     enum InputCommand {
         KeyCommand,
         KeyDownCommand,
@@ -37,7 +43,7 @@ signals:
     void connectedChange(bool);
 
 public slots:
-    void runCommand(InputCommand command, QString args);
+    void runCommand(const InputCommand command, const QVariant &args);
     void connectedSlot();
     void disconnectedSlot();
     void hostFoundSlot();

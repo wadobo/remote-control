@@ -2,6 +2,8 @@
 
 #include <QNetworkAccessManager>
 #include <QTcpSocket>
+#include <QVariant>
+#include <QStringList>
 
 
 #include <QDebug>
@@ -42,20 +44,40 @@ CommandManager::CommandManager(QObject *parent) :
 }
 
 
-void CommandManager::runCommand(CommandManager::InputCommand commandType,
-                                QString args)
+void CommandManager::runCommand(const CommandManager::InputCommand commandType,
+                                const QVariant& args)
 {
     if (commandType < 0 || commandType >= LastCommand) {
         qDebug() << "Command no implemented: " << commandType;
     }
-    QString commandLine = mCommandString.value(commandType) + " " + args;
-    qDebug() << "runCommand" << commandType << commandLine;
+    QString commandLine = mCommandString.value(commandType) + " ";
+    switch (commandType) {
+    case MouseRelativeMoveCommand:
+    case MouseMoveCommand:
+        commandLine.append(args.toStringList().join(" "));
+        break;
+    case KeyCommand:
+    case KeyDownCommand:
+    case KeyUpCommand:
+    case MouseClickCommand:
+    case MouseDownCommand:
+    case MouseUpCommand:
+    case StringCommand:
+    case SleepCommand:
+    case MicroSleepCommand:
+        commandLine.append(args.toString());
+        break;
+    default:
+        break;
+    }
+    commandLine.append('\n');
+    mSocket->write(commandLine.toAscii());
+    qDebug() << "sending command" << commandType << commandLine;
 }
 
 void CommandManager::connectedSlot()
 {
     qDebug() << "socket: connected";
-    mSocket->write("holaaaaaaaaaaaaa");
 }
 
 void CommandManager::disconnectedSlot()
