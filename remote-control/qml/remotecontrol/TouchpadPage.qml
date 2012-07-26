@@ -1,28 +1,15 @@
 import QtQuick 1.1
 import com.nokia.symbian 1.1
+import com.wadobo.commandplugin 1.0
 
 Page {
     Image {
         anchors.fill: parent
-        //width: 120; height: 120
         fillMode: Image.Tile
         source: "qrc:/bg.jpg"
 
         MouseArea {
-            id: touchpadArea
-            anchors.fill: parent
-            hoverEnabled: true
-            //onClicked: Qt.quit()
-
-        }
-        Text {
-            id: coordinates
-            anchors.top: parent.top
-            anchors.right: parent.right
-            text:"x: " + touchpadArea.mouseX +", y: " +touchpadArea.mouseY
-        }
-
-        MouseArea {
+                    id: touchpadArea
                     anchors.fill: parent
                     property int prevX: 0
                     property int prevY: 0
@@ -50,6 +37,13 @@ Page {
                     }
                 }
 
+        Text {
+            id: coordinates
+            anchors.top: parent.top
+            anchors.right: parent.right
+            text:"x: " + touchpadArea.mouseX +", y: " +touchpadArea.mouseY
+        }
+
         Button {
             id: leftButton
             text: "Left button"
@@ -57,6 +51,9 @@ Page {
             anchors.bottomMargin: 10
             anchors.left: parent.left
             anchors.leftMargin: 10
+            onClicked: {
+                commandManager.runCommand(CommandManager.MouseClickCommand, Qt.LeftButton)
+            }
         }
         Button {
             id: rightButton
@@ -65,6 +62,10 @@ Page {
             anchors.bottomMargin: 10
             anchors.right: parent.right
             anchors.rightMargin: 10
+            onClicked: {
+                commandManager.runCommand(CommandManager.MouseClickCommand, Qt.RightButton)
+            }
+
         }
    }
 }

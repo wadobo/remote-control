@@ -3,8 +3,13 @@
 
 #include <QObject>
 #include <QMap>
+#include <QAbstractSocket>
 
 class QNetworkAccessManager;
+class QTcpSocket;
+class QNetworkProxy;
+class QAuthenticator;
+class QVariant;
 
 class CommandManager : public QObject
 {
@@ -12,8 +17,11 @@ class CommandManager : public QObject
     Q_ENUMS(InputCommand)
 
 public:
-    Q_PROPERTY(bool connected READ connected NOTIFY connectedChange)
-
+    /**
+      * These are the possible commands to be send to the computer.
+      * They are the same of xte Linux command. For more information
+      * see "man xte".
+      */
     enum InputCommand {
         KeyCommand,
         KeyDownCommand,
@@ -29,20 +37,24 @@ public:
         LastCommand
     };
 
-    explicit CommandManager(QNetworkAccessManager* networkManager,
-                            QObject *parent = 0);
+    explicit CommandManager(QObject *parent = 0);
 
 signals:
     void connectedChange(bool);
 
 public slots:
-    bool connected() const { return mConnected; }
-    void runCommand(InputCommand command, QString args);
+    void runCommand(const InputCommand command, const QVariant &args);
+    void connectedSlot();
+    void disconnectedSlot();
+    void hostFoundSlot();
+    void errorSlot(QAbstractSocket::SocketError error);
+    void proxyAuthenticationRequiredSlot(const QNetworkProxy& , QAuthenticator*);
+    void stateChangedSlot(QAbstractSocket::SocketState state);
 
 protected:
     QMap<InputCommand, QString> mCommandString;
+    QTcpSocket *mSocket;
     QNetworkAccessManager *mNetworkManager;
-    bool mConnected;
 };
 
 #endif // COMMANDMANAGER_H
