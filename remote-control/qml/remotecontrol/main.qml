@@ -1,6 +1,6 @@
 import QtQuick 1.1
 import com.nokia.symbian 1.1
-import com.wadobo.commandplugin 1.0
+import com.wadobo.remotecontrolplugin 1.0
 
 PageStackWindow {
     id: window
@@ -9,8 +9,13 @@ PageStackWindow {
     showStatusBar: true
     showToolBar: true
 
+    NetworkManager {
+        id: networkManager
+    }
+
     CommandManager {
         id: commandManager
+        networkManager: networkManager
     }
 
     ToolBar {

@@ -1,23 +1,21 @@
 #ifndef COMMANDMANAGER_H
 #define COMMANDMANAGER_H
 
+#include "NetworkManager.h"
+
 #include <QObject>
 #include <QMap>
 #include <QAbstractSocket>
 #include <QStringList>
 #include <QNetworkAddressEntry>
 
-class QNetworkAccessManager;
-class QTcpSocket;
-class QNetworkProxy;
-class QAuthenticator;
 class QVariant;
 
 class CommandManager : public QObject
 {
     Q_OBJECT
     Q_ENUMS(InputCommand)
-    Q_PROPERTY(QString state READ state NOTIFY stateChanged)
+    Q_PROPERTY(NetworkManager* networkManager READ networkManager WRITE setNetworkManager)
 
 public:
     /**
@@ -40,45 +38,21 @@ public:
         LastCommand
     };
 
-    enum State {
-        UnconnectedState,
-        ConnectedState,
-        ConnectingState,
-        AutoConnectingState
-    };
     explicit CommandManager(QObject *parent = 0);
 
-    QString state() const { return ""; }
-signals:
-    void connectedChange(bool);
-    void stateChanged(QString);
-
 public slots:
-    void automaticConnection();
-    void runCommand(const InputCommand command, const QVariant &args);
-    void connectedSlot();
-    void disconnectedSlot();
-    void hostFoundSlot();
-    void errorSlot(QAbstractSocket::SocketError error);
-    void proxyAuthenticationRequiredSlot(const QNetworkProxy& , QAuthenticator*);
-    void stateChangedSlot(QAbstractSocket::SocketState state);
+    /**
+      * Send the given command with the given arguments to the server
+      */
+    void runCommand(const InputCommand command, const QVariant &arguments);
+
+    NetworkManager* networkManager() const { return mNetworkManager; }
+    void setNetworkManager(NetworkManager* nm) { mNetworkManager = nm; }
 
 protected:
-    // Functions
-    void startAutomaticConnection();
-    void nextAutomaticConnection();
-
     // Variables
     QMap<InputCommand, QString> mCommandString;
-    /**
-      * Possible states are: Unconnected, connected, connecting, automaticConnecting
-      */
-    State mState;
-    QTcpSocket *mSocket;
-    QList<QNetworkAddressEntry> mAutoConnectionAddressList;
-    QNetworkAddressEntry mActualAddress;
-
-    short mPort;
+    NetworkManager *mNetworkManager;
 };
 
 #endif // COMMANDMANAGER_H

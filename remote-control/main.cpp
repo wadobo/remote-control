@@ -11,7 +11,10 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     QScopedPointer<QApplication> app(createApplication(argc, argv));
 
     QmlApplicationViewer viewer;
-    qmlRegisterType<CommandManager>("com.wadobo.commandplugin", 1, 0, "CommandManager");
+    qmlRegisterType<CommandManager>("com.wadobo.remotecontrolplugin", 1, 0,
+                                    "CommandManager");
+    qmlRegisterType<NetworkManager>("com.wadobo.remotecontrolplugin", 1, 0,
+                                    "NetworkManager");
     viewer.setOrientation(QmlApplicationViewer::ScreenOrientationAuto);
     viewer.setMainQmlFile(QLatin1String("qml/remotecontrol/main.qml"));
     viewer.showExpanded();

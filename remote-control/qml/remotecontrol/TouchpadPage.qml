@@ -1,6 +1,6 @@
 import QtQuick 1.1
 import com.nokia.symbian 1.1
-import com.wadobo.commandplugin 1.0
+import com.wadobo.remotecontrolplugin 1.0
 
 Page {
     Image {
