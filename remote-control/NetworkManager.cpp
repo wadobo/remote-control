@@ -55,6 +55,13 @@ void NetworkManager::automaticConnection()
     startAutomaticConnection();
 }
 
+void NetworkManager::connectToHost(const QString &host, const short port)
+{
+    // FIXME
+    mPort = port;
+    mSocket->connectToHost(host, mPort);
+}
+
 void NetworkManager::connectedSlot()
 {
     qDebug() << "socket: connected";

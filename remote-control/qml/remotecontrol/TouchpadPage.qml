@@ -30,7 +30,6 @@ Page {
                 ypos = mouseY - prevY;
 
                 commandManager.runCommand(CommandManager.MouseRelativeMoveCommand, [xpos, ypos]);
-                //xte.send(server, port, "mousermove " + xpos + " " + ypos);
 
                 prevX = mouseX;
                 prevY = mouseY;

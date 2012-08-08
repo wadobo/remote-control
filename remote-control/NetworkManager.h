@@ -33,12 +33,15 @@ signals:
 
 public slots:
     void automaticConnection();
+    void connectToHost(const QString& host, const short port);
+    void stateChangedSlot(QAbstractSocket::SocketState state);
+
+protected slots:
     void connectedSlot();
     void disconnectedSlot();
     void hostFoundSlot();
     void errorSlot(QAbstractSocket::SocketError error);
     void proxyAuthenticationRequiredSlot(const QNetworkProxy& , QAuthenticator*);
-    void stateChangedSlot(QAbstractSocket::SocketState state);
 
 protected:
     // Functions
