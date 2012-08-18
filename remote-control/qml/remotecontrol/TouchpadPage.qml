@@ -3,6 +3,7 @@ import com.nokia.symbian 1.1
 import com.wadobo.remotecontrolplugin 1.0
 
 Page {
+    tools: PageToolBar {}
     Image {
         anchors.fill: parent
         fillMode: Image.Tile

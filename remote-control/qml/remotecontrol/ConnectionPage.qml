@@ -44,6 +44,8 @@ Page {
 
     property int defaultMargin: 10 // plataformStyle.paddingSmall
 
+    tools: SettingsToolBar {}
+
     Label {
         id: hostLabel
         anchors {

@@ -17,17 +17,6 @@ PageStackWindow {
         networkManager: networkManager
     }
 
-    /*
-    ToolBar {
-        id: bottomToolbar
-        anchors {
-            bottom: parent.bottom
-            left: parent.left
-            right: parent.right
-        }
-    }
-    */
-
     Menu {
         id: mainMenu
         // define the items in the menu and corresponding actions

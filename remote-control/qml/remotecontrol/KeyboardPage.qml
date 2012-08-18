@@ -3,9 +3,9 @@ import QtQuick 1.1
 import com.nokia.symbian 1.1
 import com.wadobo.remotecontrolplugin 1.0
 
-
-
 Page {
+    tools: PageToolBar {}
+
     TextArea {
         id: textInput
         width: parent.width
