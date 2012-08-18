@@ -35,12 +35,6 @@ PageStackWindow {
 
                 }
                 TabButton {
-                    id: tabButton3
-                    text: "Media"
-                    onClicked: pageStack.push(mediaPage)
-
-                }
-                TabButton {
                     iconSource: "toolbar-menu"
                     onClicked: Qt.quit()
                 }
@@ -55,11 +49,6 @@ PageStackWindow {
 
    KeyboardPage {
        id: keyboardPage
-       tools: bottomToolbar
-   }
-
-   MediaPage {
-       id: mediaPage
        tools: bottomToolbar
    }
 
